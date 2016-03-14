@@ -18,7 +18,8 @@ ADD id_rsa.pub /home/vpn/.ssh/authorized_keys
 ADD new-client openvpn-server.conf openvpn-client.conf /home/vpn/
 ADD docker-entrypoint /
 
-RUN chown vpn:vpn /home/vpn/.ssh/authorized_keys \
+RUN mv /home/vpn/openvpn-server.conf /etc/openvpn/server.conf \
+    && chown vpn:vpn /home/vpn/.ssh/authorized_keys \
     && chmod 0700 /home/vpn/.ssh/authorized_keys
 
 EXPOSE 22
