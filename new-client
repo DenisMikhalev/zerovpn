@@ -26,7 +26,7 @@ ifconfig-push $ip $peer_ip
 route $group_ip $subnet
 EOF
 
-  /etc/init.d/openvpn reload
+  service openvpn reload
 fi
 } > /dev/null
 
