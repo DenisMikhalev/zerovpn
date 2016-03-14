@@ -6,8 +6,8 @@
 
 ip=$1
 hostname=ip_${ip//./_}
-peer_ip=${2%.*}.$((${2##*.} - 1))
-group_ip=${2%.*}.0              # NB: change this if you change subnet
+peer_ip=${ip%.*}.$((${ip##*.} - 1))
+group_ip=${ip%.*}.0             # NB: change this if you change subnet
 subnet=255.255.255.0
 
 {
