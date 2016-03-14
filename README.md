@@ -22,7 +22,7 @@ Then build and launch the server:
 ```sh
 $ cp ~/.ssh/vpn-key.pub id_rsa.pub
 $ sudo docker build -t zerovpn .
-$ sudo docker run -d -p 1194:1194/udp -p 2222:22 zerovpn
+$ sudo docker run -d -p 1194:1194 -p 2222:22 zerovpn
 ```
 
 Note that this takes a minute or so because OpenVPN generates a new server key
