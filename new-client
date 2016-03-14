@@ -20,12 +20,14 @@ if ! [[ -e keys/$hostname.key ]]; then
   export KEY_ORG=zerovpn
   export KEY_EMAIL=none
   ./pkitool $hostname
-fi
 
-cat > ../clients/$hostname <<EOF
+  cat > ../clients/$hostname <<EOF
 ifconfig-push $ip $peer_ip
 route $group_ip $subnet
 EOF
+
+  /etc/init.d/openvpn reload
+fi
 } > /dev/null
 
 cd /etc/openvpn/easy-rsa/keys

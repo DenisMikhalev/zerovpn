@@ -22,11 +22,16 @@ Then build and launch the server:
 ```sh
 $ cp ~/.ssh/vpn-key.pub id_rsa.pub
 $ sudo docker build -t zerovpn .
-$ sudo docker run -d -p 1194:1194/udp -p 2222:22 zerovpn
+$ sudo docker run --privileged -d -p 1194:1194/udp -p 2222:22 zerovpn
 ```
 
-Note that this takes a minute or so because OpenVPN generates a new server key
-for each container.
+**NOTE:** The `--privileged` option is required; otherwise OpenVPN will
+silently fail to establish the connection. I'm not entirely sure why this is,
+but it's something to do with the tun/tap drivers.
+
+Note that running the container takes a minute or so because OpenVPN generates
+a server key. This happens each time you launch the image. The container will
+refuse SSH connections until it's fully booted.
 
 Now anyone with `.ssh/vpn-key` can use `zerovpn` to connect to the OpenVPN:
 
