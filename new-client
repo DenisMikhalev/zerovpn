@@ -1,0 +1,32 @@
+#!/bin/bash
+# This is used from inside the vpn container.
+#
+# Usage:
+# $ sudo new-client client_ip
+
+ip=$1
+hostname=ip_${ip//./_}
+peer_ip=${2%.*}.$((${2##*.} - 1))
+group_ip=${2%.*}.0              # NB: change this if you change subnet
+subnet=255.255.255.0
+
+{
+cd /etc/openvpn/easy-rsa
+
+# Create the client key unless we have one already
+if ! [[ -e keys/$hostname.key ]]; then
+  source ./vars
+  export KEY_CN=$hostname
+  export KEY_ORG=zerovpn
+  export KEY_EMAIL=none
+  ./pkitool $hostname
+fi
+
+cat > ../clients/$hostname <<EOF
+ifconfig-push $ip $peer_ip
+route $group_ip $subnet
+EOF
+} > /dev/null
+
+cd /etc/openvpn/easy-rsa/keys
+tar -c ca.crt $hostname.crt $hostname.key

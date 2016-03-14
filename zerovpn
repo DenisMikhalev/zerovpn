@@ -1,0 +1,24 @@
+#!/bin/bash
+cd "$(mktemp -d)" || exit $?
+chmod 0700 .
+
+client_ip=$1
+shift
+
+server_hostname=
+for ssh_arg; do
+  if [[ "${ssh_arg#vpn@}" != "$ssh_arg" ]]; then
+    server_hostname=${ssh_arg#vpn@}
+    break
+  fi
+done
+
+ssh "$@" "sudo ./new-client $client_ip" | tar -x
+ssh "$@" "cat openvpn-client.conf" \
+  | sed "s/CLIENT_HOSTNAME/ip_${client_ip//./_}/g;
+         s/SERVER_HOSTNAME/$server_hostname/g" \
+  > conf
+
+sudo openvpn --config conf
+
+echo rm -r "$PWD"

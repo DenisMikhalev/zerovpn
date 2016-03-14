@@ -1,0 +1,19 @@
+#!/bin/bash
+# Reinitialize the server keys each time we boot up; that way the docker image
+# doesn't contain any sensitive data.
+
+cd /etc/openvpn
+mv easy-rsa-source/easy-rsa/2.0 easy-rsa
+
+cd easy-rsa
+chown -R root:sudo .
+chmod g+w .
+source ./vars
+./clean-all
+./build-dh
+./pkitool --initca
+./pkitool --server server
+
+/etc/init.d/openvpn start
+
+/usr/sbin/sshd -D
