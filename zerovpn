@@ -21,4 +21,4 @@ ssh "$@" "cat openvpn-client.conf" \
 
 sudo openvpn --config conf
 
-echo rm -r "$PWD"
+rm -r "$PWD"
