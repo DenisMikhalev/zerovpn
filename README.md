@@ -20,7 +20,7 @@ $ ssh-keygen -f ~/.ssh/vpn-key
 Then build and launch the server:
 
 ```sh
-$ cp ~/.ssh/vpn-key.pub id_rsa.pub
+$ cp ~/.ssh/vpn-key.pub authorized_keys
 $ sudo docker build -t zerovpn .
 $ sudo docker run --privileged -d -p 1194:1194/udp -p 2222:22 zerovpn
 ```

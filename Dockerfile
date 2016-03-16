@@ -14,11 +14,13 @@ RUN useradd -ms /bin/bash vpn -G adm,sudo \
     && mkdir /home/vpn/.ssh \
     && chown vpn /home/vpn/.ssh
 
-ADD id_rsa.pub /home/vpn/.ssh/authorized_keys
-ADD new-client openvpn-server.conf openvpn-client.conf /home/vpn/
+ADD authorized_keys new-client openvpn-server.conf openvpn-client.conf \
+    /home/vpn/
+
 ADD docker-entrypoint /
 
 RUN mv /home/vpn/openvpn-server.conf /etc/openvpn/server.conf \
+    && mv /home/vpn/authorized_keys /home/vpn/.ssh/ \
     && chown vpn:vpn /home/vpn/.ssh/authorized_keys \
     && chmod 0700 /home/vpn/.ssh/authorized_keys
 

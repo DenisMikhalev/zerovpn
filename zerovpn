@@ -13,6 +13,8 @@ for ssh_arg; do
   fi
 done
 
+ssh "$@" true || exit $?
+
 ssh "$@" "sudo ./new-client $client_ip" | tar -x
 ssh "$@" "cat openvpn-client.conf" \
   | sed "s/CLIENT_HOSTNAME/ip_${client_ip//./_}/g;
