@@ -23,6 +23,6 @@ RUN mv /home/vpn/openvpn-server.conf /etc/openvpn/server.conf \
     && chmod 0700 /home/vpn/.ssh/authorized_keys
 
 EXPOSE 22
-EXPOSE 1194
+EXPOSE 1195
 
 CMD ["/docker-entrypoint"]
