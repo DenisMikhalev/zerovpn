@@ -3,7 +3,7 @@
 # doesn't contain any sensitive data.
 
 cd /etc/openvpn
-mv easy-rsa-source/easy-rsa/2.0 easy-rsa
+ln -s easy-rsa-source/easy-rsa/2.0 easy-rsa
 
 cd /etc/openvpn/easy-rsa
 source ./vars
