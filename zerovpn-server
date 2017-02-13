@@ -1,0 +1,29 @@
+#!/bin/bash
+# Usage: ./zerovpn-server $ip_base ssh_port openvpn_port
+#   e.g. ./zerovpn-server 10.8.0.0 2222 1194
+
+if (( !$# )); then
+  echo "usage: $0 <ip_base> <ssh_port> <openvpn_port>"
+  echo "  e.g. $0 10.8.0.0 2222 1194 (subnet /24 is implied)"
+  echo
+  echo "creates a zerovpn server called zerovpn_10_8_0_0"
+  echo
+  exit 1
+fi
+
+cd "$(dirname "$0")"
+
+ip_base=$1
+ssh_port=$2
+vpn_port=$3
+
+container_name=zerovpn_${ip_base//./_}
+
+image=$(docker build -q --build-arg ip_base=$ip_base .)
+docker run \
+  --privileged \
+  --name $container_name \
+  --detach \
+  --publish $vpn_port:1194/udp \
+  --publish $ssh_port:22 \
+  $image

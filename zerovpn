@@ -15,12 +15,11 @@ done
 
 ssh "$@" true || exit $?
 
-ssh "$@" "sudo ./new-client $client_ip" | tar -x
-ssh "$@" "cat openvpn-client.conf" \
-  | sed "s/CLIENT_HOSTNAME/ip_${client_ip//./_}/g;
+ssh "$@" "./new-client $client_ip" | tar -x
+sed -ri "s/CLIENT_HOSTNAME/ip_${client_ip//./_}/g;
          s/SERVER_HOSTNAME/$server_hostname/g" \
-  > conf
+  client.conf
 
-sudo openvpn --config conf
+sudo openvpn --config client.conf
 
 rm -r "$PWD"
