@@ -21,7 +21,8 @@ container_name=zerovpn_${ip_base//./_}
 
 docker build -t zerovpn-base - < Dockerfile.base
 
-image=$(docker build -q --build-arg ip_base_prefix=${ip_base%.0} .)
+image=$(docker build -q --build-arg ip_base_prefix=${ip_base%.0} \
+                        --build-arg server_port=$vpn_port .)
 docker run \
   --privileged \
   --name $container_name \

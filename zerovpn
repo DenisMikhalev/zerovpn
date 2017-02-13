@@ -13,8 +13,6 @@ for ssh_arg; do
   fi
 done
 
-ssh "$@" true || exit $?
-
 ssh "$@" $client_ip | tar -x
 sed -ri "s/CLIENT_HOSTNAME/ip_${client_ip//./_}/g;
          s/SERVER_HOSTNAME/$server_hostname/g" \
