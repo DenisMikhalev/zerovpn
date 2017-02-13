@@ -5,12 +5,14 @@
 cd /etc/openvpn
 mv easy-rsa-source/easy-rsa/2.0 easy-rsa
 
-cd easy-rsa
+cd /etc/openvpn/easy-rsa
 source ./vars
 ./clean-all
 ./build-dh
 ./pkitool --initca
 ./pkitool --server server
+
+mkdir -p keys
 
 mv /home/vpn/openvpn-client.conf easy-rsa/keys/client.conf
 
@@ -36,10 +38,10 @@ ifconfig-push $ip $peer_ip
 route $group_ip $subnet
 EOF
 
-  cd keys
+  cd /etc/openvpn/easy-rsa/keys
   tar -c ca.crt $hostname.crt $hostname.key client.conf > /home/vpn/$hostname
-  cd ..
 done
 
+cd /
 /etc/init.d/openvpn start
 /usr/sbin/sshd -D
