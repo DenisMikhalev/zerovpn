@@ -11,5 +11,4 @@ RUN useradd -ms /bin/bash vpn \
     && mkdir /var/run/sshd \
     && mkdir /etc/openvpn/clients \
     && mkdir /home/vpn/.ssh \
-    && chown vpn /home/vpn/.ssh \
-    && chmod a+rX /etc/openvpn/easy-rsa/keys
+    && chown vpn /home/vpn/.ssh

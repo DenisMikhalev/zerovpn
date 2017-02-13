@@ -37,6 +37,8 @@ route $group_ip $subnet
 EOF
 done
 
+chmod a+rX /etc/openvpn/easy-rsa/keys
+
 /etc/init.d/openvpn start
 
 /usr/sbin/sshd -D
