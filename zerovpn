@@ -15,7 +15,7 @@ done
 
 ssh "$@" true || exit $?
 
-ssh "$@" "./new-client $client_ip" | tar -x
+ssh "$@" $client_ip | tar -x
 sed -ri "s/CLIENT_HOSTNAME/ip_${client_ip//./_}/g;
          s/SERVER_HOSTNAME/$server_hostname/g" \
   client.conf

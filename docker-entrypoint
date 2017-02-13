@@ -6,8 +6,6 @@ cd /etc/openvpn
 mv easy-rsa-source/easy-rsa/2.0 easy-rsa
 
 cd easy-rsa
-chown -R root:sudo .
-chmod g+w .
 source ./vars
 ./clean-all
 ./build-dh
@@ -31,16 +29,17 @@ for ip_last in `seq 4 4 255`; do
   export KEY_CN=$hostname
   export KEY_ORG=zerovpn
   export KEY_EMAIL=none
-  ./pkitool $hostname
+  ./pkitool $hostname > /dev/null
 
   cat > ../clients/$hostname <<EOF
 ifconfig-push $ip $peer_ip
 route $group_ip $subnet
 EOF
+
+  cd keys
+  tar -c ca.crt $hostname.crt $hostname.key client.conf > /home/vpn/$hostname
+  cd ..
 done
 
-chmod a+rX easy-rsa/keys -R
-
 /etc/init.d/openvpn start
-
 /usr/sbin/sshd -D

@@ -1,0 +1,4 @@
+#!/bin/bash
+ip_address=$1
+config_tar=ip_${ip_address//./_}
+cat /home/vpn/$config_tar
