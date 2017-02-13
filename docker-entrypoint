@@ -37,7 +37,7 @@ route $group_ip $subnet
 EOF
 done
 
-chmod a+rX /etc/openvpn/easy-rsa/keys
+chmod a+rX /etc/openvpn/easy-rsa/keys -R
 
 /etc/init.d/openvpn start
 
