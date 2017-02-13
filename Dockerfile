@@ -1,20 +1,4 @@
-FROM ubuntu:16.04
-
-ARG ip_base
-
-RUN apt-get update && apt-get install -y openvpn openssh-server git
-
-RUN cd /etc/openvpn \
-    && git clone -b release/2.x \
-           git://github.com/OpenVPN/easy-rsa easy-rsa-source
-
-RUN useradd -ms /bin/bash vpn \
-    && echo "    IdentityFile ~/.ssh/id_rsa" >> /etc/ssh/ssh_config \
-    && mkdir /var/run/sshd \
-    && mkdir /etc/openvpn/clients \
-    && mkdir /home/vpn/.ssh \
-    && chown vpn /home/vpn/.ssh \
-    && chmod a+rX /etc/openvpn/easy-rsa/keys
+FROM zerovpn-base:latest
 
 ADD authorized_keys new-client openvpn-server.conf openvpn-client.conf \
       docker-entrypoint \
