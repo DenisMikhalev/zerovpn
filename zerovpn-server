@@ -18,15 +18,17 @@ ssh_port=$2
 vpn_port=$3
 
 container_name=zerovpn_${ip_base//./_}
+image=zerovpn-${ip_base//./-}
 
-docker build -t zerovpn-base - < Dockerfile.base
+docker build -t zerovpn-base - < Dockerfile.base || exit 1
+docker build -t $image \
+             --build-arg ip_base_prefix=${ip_base%.0} \
+             --build-arg server_port=$vpn_port . || exit 1
 
-image=$(docker build -q --build-arg ip_base_prefix=${ip_base%.0} \
-                        --build-arg server_port=$vpn_port .)
 docker run \
   --privileged \
   --name $container_name \
   --detach \
   --publish $vpn_port:$vpn_port/udp \
   --publish $ssh_port:22 \
-  $image
+  $image || exit 1
