@@ -2,7 +2,7 @@ FROM zerovpn-base:latest
 
 ARG ip_base_prefix
 
-ADD authorized_keys new-client openvpn-server.conf openvpn-client.conf \
+ADD authorized_keys openvpn-server.conf openvpn-client.conf \
       docker-entrypoint login-shell \
     /home/vpn/
 
