@@ -14,6 +14,8 @@ source ./vars
 ./pkitool --initca
 ./pkitool --server server
 
+mv /home/vpn/openvpn-client.conf easy-rsa/keys/client.conf
+
 for ip_last in `seq 4 4 255`; do
   ip=IP_BASE_PREFIX.$ip_last
   hostname=ip_${ip//./_}
@@ -37,7 +39,7 @@ route $group_ip $subnet
 EOF
 done
 
-chmod a+rX /etc/openvpn/easy-rsa/keys -R
+chmod a+rX easy-rsa/keys -R
 
 /etc/init.d/openvpn start
 
