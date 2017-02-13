@@ -6,29 +6,6 @@
 
 ip=$1
 hostname=ip_${ip//./_}
-peer_ip=${ip%.*}.$((${ip##*.} - 1))
-group_ip=${ip%.*}.0             # NB: change this if you change subnet
-subnet=255.255.255.0
-
-{
-cd /etc/openvpn/easy-rsa
-
-# Create the client key unless we have one already
-if ! [[ -e keys/$hostname.key ]]; then
-  source ./vars
-  export KEY_CN=$hostname
-  export KEY_ORG=zerovpn
-  export KEY_EMAIL=none
-  ./pkitool $hostname
-
-  cat > ../clients/$hostname <<EOF
-ifconfig-push $ip $peer_ip
-route $group_ip $subnet
-EOF
-
-  service openvpn reload
-fi
-} > /dev/null
 
 cd /etc/openvpn/easy-rsa/keys
-tar -c ca.crt $hostname.crt $hostname.key
+tar -c ca.crt $hostname.crt $hostname.key client.conf

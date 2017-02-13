@@ -14,6 +14,29 @@ source ./vars
 ./pkitool --initca
 ./pkitool --server server
 
+for ip_last in `seq 4 4 255`; do
+  ip=IP_BASE_PREFIX.$ip_last
+  hostname=ip_${ip//./_}
+  peer_ip=${ip%.*}.$((${ip##*.} - 1))
+  group_ip=${ip%.*}.0             # NB: change this if you change subnet
+  subnet=255.255.255.0
+  echo "generating key for $ip..."
+
+  cd /etc/openvpn/easy-rsa
+
+  # Create the client key unless we have one already
+  source ./vars
+  export KEY_CN=$hostname
+  export KEY_ORG=zerovpn
+  export KEY_EMAIL=none
+  ./pkitool $hostname
+
+  cat > ../clients/$hostname <<EOF
+ifconfig-push $ip $peer_ip
+route $group_ip $subnet
+EOF
+done
+
 /etc/init.d/openvpn start
 
 /usr/sbin/sshd -D
