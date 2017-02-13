@@ -14,7 +14,9 @@ RUN sed -ri 's/IP_BASE_PREFIX/'$ip_base_prefix'/g; \
  && mv /home/vpn/docker-entrypoint / \
  && chown vpn:vpn /home/vpn/.ssh/authorized_keys \
  && chsh -s /home/vpn/login-shell vpn \
- && chmod 0700 /home/vpn/.ssh/authorized_keys
+ && chmod 0700 /home/vpn/.ssh/authorized_keys \
+ && rm /etc/ssh/ssh_host_* \
+ && dpkg-reconfigure openssh-server
 
 EXPOSE 22
 EXPOSE $server_port
