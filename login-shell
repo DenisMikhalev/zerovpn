@@ -1,4 +1,14 @@
 #!/bin/bash
-ip_address=$1
-config_tar=ip_${ip_address//./_}
-cat /home/vpn/$config_tar
+shift           # invoked by ssh as "$0 -c ..."; shift off the -c
+
+case $1 in
+authorize)
+  cat >> /home/vpn/.ssh/authorized_keys
+  ;;
+
+*)
+  ip_address=$1
+  config_tar=ip_${ip_address//./_}
+  cat /home/vpn/$config_tar
+  ;;
+esac
