@@ -27,6 +27,6 @@ docker run \
   --privileged \
   --name $container_name \
   --detach \
-  --publish $vpn_port:1194/udp \
+  --publish $vpn_port:$vpn_port/udp \
   --publish $ssh_port:22 \
   $image

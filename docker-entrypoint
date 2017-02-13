@@ -31,7 +31,7 @@ for ip_last in `seq 4 4 255`; do
   export KEY_CN=$hostname
   export KEY_ORG=zerovpn
   export KEY_EMAIL=none
-  ./pkitool $hostname > /dev/null
+  ./pkitool $hostname
 
   cat > /etc/openvpn/clients/$hostname <<EOF
 ifconfig-push $ip $peer_ip

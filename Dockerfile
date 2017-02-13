@@ -17,6 +17,6 @@ RUN sed -ri 's/IP_BASE_PREFIX/'$ip_base_prefix'/g; \
  && chmod 0700 /home/vpn/.ssh/authorized_keys
 
 EXPOSE 22
-EXPOSE 1194
+EXPOSE $server_port
 
 CMD /docker-entrypoint
